@@ -34,7 +34,7 @@ export function CarsGallery({ limit, showTitle = true }: { limit?: number; showT
   const years = useMemo(() => [...new Set(data.map((d) => d.year))].sort((a, b) => b - a), [data]);
 
   const filtered = data.filter((l) => {
-    const b = budgets[budget];
+    const b = budgets[budget] ?? budgets[0]!;
     return (
       (!brand || l.brand === brand) &&
       (!fuel || l.fuel === fuel) &&
