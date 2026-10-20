@@ -43,9 +43,23 @@ export const listingsQuery = queryOptions({
       .neq("status", "hidden")
       .order("created_at", { ascending: false });
     if (error) throw error;
-    return data ?? [];
+    const rows = data ?? [];
+    const paths = rows.flatMap((r) => r.image_urls);
+    const map = new Map<string, string>();
+    if (paths.length) {
+      const { data: signed } = await supabase.storage
+        .from("listing-photos")
+        .createSignedUrls(paths, 60 * 60 * 6);
+      signed?.forEach((s) => s.path && s.signedUrl && map.set(s.path, s.signedUrl));
+    }
+    return rows.map((r) => ({
+      ...r,
+      photos: r.image_urls.map((p) => map.get(p)).filter(Boolean) as string[],
+    }));
   },
 });
+
+export type Listing = Awaited<ReturnType<NonNullable<typeof listingsQuery.queryFn>>>[number];
 
 export const reviewsQuery = queryOptions({
   queryKey: ["reviews"],
@@ -59,6 +73,3 @@ export const reviewsQuery = queryOptions({
   },
 });
 
-export function listingPhotoUrl(path: string) {
-  return supabase.storage.from("listing-photos").getPublicUrl(path).data.publicUrl;
-}
