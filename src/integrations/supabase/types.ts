@@ -14,16 +14,246 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      enquiries: {
+        Row: {
+          consent: boolean
+          created_at: string
+          id: string
+          listing_id: string | null
+          message: string
+          mobile: string
+          name: string
+          status: string
+        }
+        Insert: {
+          consent: boolean
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          message: string
+          mobile: string
+          name: string
+          status?: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          listing_id?: string | null
+          message?: string
+          mobile?: string
+          name?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      listings: {
+        Row: {
+          brand: string
+          created_at: string
+          description: string | null
+          fuel: string
+          id: string
+          image_urls: string[]
+          is_demo: boolean
+          km_driven: number
+          model: string
+          price: number
+          status: string
+          transmission: string
+          year: number
+        }
+        Insert: {
+          brand: string
+          created_at?: string
+          description?: string | null
+          fuel: string
+          id?: string
+          image_urls?: string[]
+          is_demo?: boolean
+          km_driven?: number
+          model: string
+          price: number
+          status?: string
+          transmission: string
+          year: number
+        }
+        Update: {
+          brand?: string
+          created_at?: string
+          description?: string | null
+          fuel?: string
+          id?: string
+          image_urls?: string[]
+          is_demo?: boolean
+          km_driven?: number
+          model?: string
+          price?: number
+          status?: string
+          transmission?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          created_at: string
+          customer_name: string
+          id: string
+          published: boolean
+          rating: number
+          text: string
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          id?: string
+          published?: boolean
+          rating: number
+          text: string
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          id?: string
+          published?: boolean
+          rating?: number
+          text?: string
+        }
+        Relationships: []
+      }
+      sell_requests: {
+        Row: {
+          admin_notes: string | null
+          brand: string
+          condition: string
+          consent: boolean
+          created_at: string
+          expected_price: number | null
+          fuel: string
+          full_name: string
+          id: string
+          km_driven: number
+          location: string
+          mobile: string
+          model: string
+          owners: number
+          photo_paths: string[]
+          registration_number: string | null
+          status: string
+          transmission: string
+          year: number
+        }
+        Insert: {
+          admin_notes?: string | null
+          brand: string
+          condition: string
+          consent: boolean
+          created_at?: string
+          expected_price?: number | null
+          fuel: string
+          full_name: string
+          id?: string
+          km_driven: number
+          location: string
+          mobile: string
+          model: string
+          owners: number
+          photo_paths?: string[]
+          registration_number?: string | null
+          status?: string
+          transmission: string
+          year: number
+        }
+        Update: {
+          admin_notes?: string | null
+          brand?: string
+          condition?: string
+          consent?: boolean
+          created_at?: string
+          expected_price?: number | null
+          fuel?: string
+          full_name?: string
+          id?: string
+          km_driven?: number
+          location?: string
+          mobile?: string
+          model?: string
+          owners?: number
+          photo_paths?: string[]
+          registration_number?: string | null
+          status?: string
+          transmission?: string
+          year?: number
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          address: string
+          business_hours: string
+          facebook_url: string
+          hero_text: string
+          id: number
+          instagram_url: string
+          tagline: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          business_hours?: string
+          facebook_url?: string
+          hero_text?: string
+          id?: number
+          instagram_url?: string
+          tagline?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          business_hours?: string
+          facebook_url?: string
+          hero_text?: string
+          id?: number
+          instagram_url?: string
+          tagline?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +380,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
